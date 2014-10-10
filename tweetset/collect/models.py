@@ -2,6 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from jsonfield import JSONField
+import xmlrpclib
+from django.conf import settings
+import os
 
 class Collection(models.Model):
     name = models.CharField(max_length=100)
@@ -15,6 +18,44 @@ class Collection(models.Model):
     access_token_secret = models.TextField(max_length=150,help_text="You can generate your user access token secret at http://apps.twitter.com by clicking 'Create my access token'.")
     user = models.ForeignKey(User,related_name="collections")
 
+    def start(self):
+        s = xmlrpclib.ServerProxy(settings.SUPERVISOR_URI)
+        if not self.exists():
+            s.twiddler.addProgramToGroup('tweetset', 'collection'+str(self.pk), 
+                {'command':settings.PYTHON_EXECUTABLE+' '+os.path.join(settings.PROJECT_DIR,'manage.py')+' tap '+str(self.pk),
+                'autostart':'false', 
+                'autorestart':'true', 
+                'startsecs':'3'})
+        if not self.is_running():
+            s.supervisor.startProcess('tweetset:collection'+str(self.pk))
+
+    def stop(self):
+        s = xmlrpclib.ServerProxy(settings.SUPERVISOR_URI)
+        if self.exists():
+            if self.is_running():
+                s.supervisor.stopProcess('tweetset:collection'+str(self.pk))
+            s.twiddler.removeProcessFromGroup('tweetset','collection'+str(self.pk))
+
+    def exists(self):
+        s = xmlrpclib.ServerProxy(settings.SUPERVISOR_URI)
+        l = s.supervisor.getAllProcessInfo()
+        names = [x['name'] for x in l]
+        if 'collection'+str(self.pk) in names:
+            return True
+        else:
+            return False
+
+    def is_running(self):
+        if self.exists():
+            s = xmlrpclib.ServerProxy(settings.SUPERVISOR_URI)
+            p_info = s.supervisor.getProcessInfo('tweetset:collection'+str(self.pk))
+            if p_info['statename']=='RUNNING':
+                return True
+            else:
+                return False
+        else:
+            return False
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -23,3 +64,5 @@ class Tweet(models.Model):
     twitter_id = models.CharField(max_length=100,db_index=True)
     collection = models.ForeignKey(Collection,related_name="tweets")
 
+    def __unicode__(self):
+        return unicode(self.twitter_id)

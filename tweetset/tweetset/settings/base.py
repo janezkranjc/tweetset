@@ -143,3 +143,11 @@ LOGGING = {
         },
     }
 }
+
+SUPERVISOR_USER = 'user'
+SUPERVISOR_PASSWORD = '123'
+SUPERVISOR_URI = 'http://'+SUPERVISOR_USER+':'+SUPERVISOR_PASSWORD+'@127.0.0.1:9001'
+
+import sys
+
+PYTHON_EXECUTABLE = sys.executable
