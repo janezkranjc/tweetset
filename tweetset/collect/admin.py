@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from collect.models import Collection, Tweet
+
+admin.site.register(Collection)
+admin.site.register(Tweet)
