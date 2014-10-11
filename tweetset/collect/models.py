@@ -22,7 +22,7 @@ class Collection(models.Model):
         s = xmlrpclib.ServerProxy(settings.SUPERVISOR_URI)
         if not self.exists():
             s.twiddler.addProgramToGroup('tweetset', 'collection'+str(self.pk), 
-                {'command':settings.PYTHON_EXECUTABLE+' '+os.path.join(settings.PROJECT_DIR,'manage.py')+' tap '+str(self.pk),
+                {'command':settings.PYTHON_EXECUTABLE+' '+os.path.join(settings.PROJECT_DIR,'manage.py')+' stream '+str(self.pk),
                 'autostart':'false', 
                 'autorestart':'true', 
                 'startsecs':'3'})

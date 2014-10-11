@@ -35,7 +35,7 @@ class Command(BaseCommand):
                         t, created = Tweet.objects.get_or_create(collection=collection,twitter_id=str(data['id']))
                         t.data = data
                         t.save()
-                    except Exception as e:
+                    except Exception:
                         exc_type, exc_obj, exc_tb = sys.exc_info()
                         logger.error("Couldn't save a tweet: "+str(exc_obj))
                 if 'limit' in data:
