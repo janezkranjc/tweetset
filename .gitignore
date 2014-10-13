@@ -37,6 +37,8 @@ nosetests.xml
 
 *.db
 
+*.map
+
 celerybeat-schedule
 
 node_modules
