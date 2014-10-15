@@ -2,6 +2,7 @@
 import os
 
 PROJECT_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..')
+APP_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
 PUBLIC_DIR = os.path.join(PROJECT_DIR, '..', 'public')
 
 ADMINS = (
@@ -99,7 +100,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_DIR, 'templates'),
+    os.path.join(APP_DIR, 'templates'),
 )
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
@@ -112,7 +113,18 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'widget_tweaks',    
     'collect',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.request',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -148,6 +160,8 @@ SUPERVISOR_USER = 'user'
 SUPERVISOR_PASSWORD = '123'
 SUPERVISOR_URI = 'http://'+SUPERVISOR_USER+':'+SUPERVISOR_PASSWORD+'@127.0.0.1:9001'
 
-import sys
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = 'collect.views.dashboard'
 
+import sys
 PYTHON_EXECUTABLE = sys.executable

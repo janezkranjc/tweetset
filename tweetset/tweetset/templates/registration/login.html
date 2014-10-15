@@ -1,0 +1,46 @@
+{% extends "collect/base.html" %}
+{% load widget_tweaks %}
+{% block title %}Login required{% endblock %}
+{% block navigation %}{% endblock %}
+{% block content %}
+
+<div class="login">
+  <h3 class="h3login">Login required.</h3>
+    <h3 class="h3login">Please Log In, or <a href="{% url 'signup' %}">Sign Up</a></h3>
+     {% comment %}
+     <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+          <button class="btn btn-lg btn-primary btn-block fbloginbutton" data-loading-text="Please wait..." onClick="FBlogin();"><i class="fa fa-facebook-square"></i> Log in with Facebook</button>
+        </div>
+      </div>
+      <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+      {% endcomment %}      
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <div class="form-group {% if form.errors %}has-error{% endif %}">
+          <label class="control-label" for="inputUsernameEmail">E-mail</label>
+          {{form.username|add_class:"form-control"}}
+        </div>
+        <div class="form-group {% if form.errors %}has-error{% endif %}">
+          <a class="pull-right" href="{% url 'django.contrib.auth.views.password_reset' %}">Forgot password?</a>
+          <label class="control-label" for="inputPassword">Password</label>
+          {{form.password|add_class:"form-control"}}
+        </div>
+        <div class="checkbox pull-right">
+          <label>
+            <input value="True" name="remember_me" id="remember_me" type="checkbox">
+            Remember me </label>
+        </div>
+        <button type="submit" class="btn btn btn-primary">
+          Log In
+        </button>
+
+      </form>
+
+    </div>
+
+{% endblock %}

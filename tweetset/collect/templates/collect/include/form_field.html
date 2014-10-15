@@ -1,0 +1,70 @@
+{% load widget_tweaks %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+{% if checkbox %}
+
+<div class="checkbox">
+  <label>
+    {{field}}
+    {{field.label}} {% if field.help_text %}<span class="glyphicon glyphicon-question-sign tooltip-control" data-toggle="tooltip" style="font-weight:normal;" title="{{field.help_text}}"></span>{% endif %}
+  </label>
+</div>
+{% else %}
+  <label class="control-label">{{field.label}}</label> {% if field.help_text %}<span class="glyphicon glyphicon-question-sign tooltip-control" data-toggle="tooltip" style="font-weight:normal;" title="{{field.help_text}}"></span>{% endif %}
+  {% if checkboxmultiple %}
+    {% if allusers %}
+    <div class="checkbox">
+    <label>
+      <input type="checkbox" name="ignorethis" value="nothing" disabled=disabled>
+      All users
+    </label>
+    </div>
+    {% endif %}
+  {% for checkbox in field %}
+  <div class="checkbox">
+    <label>
+        {{ checkbox.tag }}
+        {{ checkbox.choice_label }} 
+    </label>
+  </div>
+  {% endfor %}
+  {% ifequal inactive "False" %}
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" name="ignorethis2" value="nothing" disabled=disabled>
+      Inactive users
+    </label>
+  </div>
+  {% endifequal %}
+  {% ifequal inactive "True" %}
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" name="ignorethis2" value="nothing" disabled=disabled checked=checked>
+      Inactive users
+    </label>
+  </div>
+  {% endifequal %}
+  {% else %}
+  {% if formgroupclass == "datetime" %}
+  <div class='input-group date dtpicker'>
+    {{field|add_class:"form-control"}}
+    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+    </span>
+  </div>
+  {% elif formgroupclass == "dpicker" %}
+  <div class='input-group date dpicker'>
+    {{field|add_class:"form-control"}}
+    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+    </span>
+  </div>
+  {% else %}
+  {{field|add_class:"form-control"}}
+  {% if countdown %}
+  <span class="countdown-{{field.name}}">{{countdown}}</span> characters remaining.
+  {% endif %}
+  {% endif %}
+  {% endif %}
+  {% for error in field.errors %}
+  {{error}}<br>
+  {% endfor %}
+{% endif %}
+</div>

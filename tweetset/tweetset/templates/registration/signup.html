@@ -1,0 +1,60 @@
+{% extends "collect/base.html" %}
+{% load widget_tweaks %}
+{% block title %}New account registration{% endblock %}
+{% block navigation %}{% endblock %}
+{% block content %}
+
+<div class="login">
+  <h3 class="h3login">New account registration</a></h3>
+    {% comment %}
+     <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+          <a href="#" class="btn btn-lg btn-primary btn-block">Log in with Facebook</a>
+        </div>
+      </div>
+      <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+      {% endcomment %}
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+          <label class="control-label" for="inputUsernameEmail">E-mail</label>
+          {{form.email|add_class:"form-control"}}
+          {% for error in form.email.errors %}
+          {{error}}<br>
+          {% endfor %}
+        </div>
+        <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+          <label class="control-label" for="inputPassword">Password</label>
+          {{form.password|add_class:"form-control"}}
+          {% for error in form.password.errors %}
+          {{error}}<br>
+          {% endfor %}
+        </div>
+        <div class="form-group {% if form.repeat_password.errors %}has-error{% endif %}">
+          <label class="control-label" for="inputPassword">Repeat password</label>
+          {{form.repeat_password|add_class:"form-control"}}
+          {% for error in form.repeat_password.errors %}
+          {{error}}<br>
+          {% endfor %}
+        </div>
+        <div class="checkbox form-group {% if form.i_agree.errors %}has-error{% endif %}">
+          <label class="control-label">
+            {{form.i_agree}}
+            I agree with the terms of service </label>
+          {% for error in form.i_agree.errors %}
+          <br>You must agree.<br>
+          {% endfor %}
+        </div>
+        <button type="submit" class="btn btn btn-primary">
+          Sign up and log in!
+        </button>
+        <br><br>Already have an account? <a href="{% url 'login' %}">Log in here!</a>
+
+      </form>
+
+    </div>
+
+{% endblock %}
