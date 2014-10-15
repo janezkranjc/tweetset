@@ -9,12 +9,18 @@ from django.contrib.auth.views import login as login_view
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from collect.models import Collection
+from django.db.models import Count
 
 from collect.forms import SignupForm
 
 @login_required
 def dashboard(request):
-    return render(request, 'collect/index.html')
+    collections = Collection.objects.filter(user=request.user).annotate(num_tweets=Count('tweets'))
+    return render(request, 'collect/dashboard.html',
+        {
+            'collections':collections,
+        })
 
 def index(request):
     return render(request, 'collect/index.html')

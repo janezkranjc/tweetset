@@ -1,0 +1,37 @@
+{% extends 'collect/base.html' %} 
+
+{% block content %}
+<h2>Collection jobs</h2>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Follow</th>
+          <th>Track</th>
+          <th>Locations</th>
+          <th>Firehose</th>
+          <th>Active</th>
+          <th>Tweets</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            {% for collection in collections %}
+            <td>{{collection.name}}</td>
+            <td>{{colleciton.follow}}</td>
+            <td>{{collection.track}}</td>
+            <td>{{collection.locations}}</td>
+            <td>{{collection.firehose}}</td>
+            <td>{{collection.is_running}}</td>
+            <td>{{collection.num_tweets}}</td>
+            <td></td>
+            {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+{% endblock %}

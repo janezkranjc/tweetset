@@ -52,6 +52,7 @@
       <ul class="nav navbar-nav navbar-right">
         {% block subnavigation %}{% endblock %}
         {% if user.is_authenticated %}
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
         <li class="{% block profile-active %}{% endblock %} dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
  {{user}} <b class="caret"></b></a>
