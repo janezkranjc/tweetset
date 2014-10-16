@@ -1,0 +1,35 @@
+{% extends 'collect/base.html' %} 
+
+{% block dashboard-active %}active{% endblock %}
+
+{% block content %}
+<h2>New collection job</h2>
+
+<form method="post">
+<div class="row">
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+{% csrf_token %}
+  {% include "collect/include/form_field.html" with field=form.name %}
+  {% include "collect/include/form_field.html" with field=form.follow %}
+  {% include "collect/include/form_field.html" with field=form.track %}
+  {% include "collect/include/form_field.html" with field=form.locations %}
+  {% include "collect/include/form_field.html" with field=form.firehose checkbox="True" %}
+</div>
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+{% csrf_token %}
+  {% include "collect/include/form_field.html" with field=form.consumer_key %}
+  {% include "collect/include/form_field.html" with field=form.consumer_secret %}
+  {% include "collect/include/form_field.html" with field=form.access_token %}
+  {% include "collect/include/form_field.html" with field=form.access_token_secret %}
+</div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <input type="submit" class="btn btn-success" value="Add new collection">
+  </div>
+</div>
+
+
+{% endblock %}
+

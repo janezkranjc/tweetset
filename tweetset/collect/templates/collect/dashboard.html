@@ -1,8 +1,11 @@
 {% extends 'collect/base.html' %} 
 
+{% block dashboard-active %}active{% endblock %}
+
 {% block content %}
 <h2>Collection jobs</h2>
 
+{% if collections %}
 <div class="table-responsive">
   <table class="table table-bordered table-striped">
       <thead>
@@ -27,11 +30,21 @@
             <td>{{collection.firehose}}</td>
             <td>{{collection.is_running}}</td>
             <td>{{collection.num_tweets}}</td>
-            <td></td>
+            <td>
+                {% if not collection.is_running %}<a href="{% url 'start collection' collection_id=collection.pk %}" class="btn btn-success btn-xs ts-loading" data-loading-text="Starting">Start</a>
+                <a href="{% url 'edit collection' collection_id=collection.pk %}" class="btn btn-info btn-xs">Edit</a> 
+                <a href="{% url 'delete collection' collection_id=collection.pk %}" class="btn btn-danger btn-xs">Delete</a>
+                {% else %}
+                <a href="{% url 'stop collection' collection_id=collection.pk %}" class="btn btn-warning btn-xs ts-loading" data-loading-text="Stopping">Stop</a> 
+                {% endif %}
+            </td>
             {% endfor %}
         </tr>
       </tbody>
     </table>
 </div>
-
+{% else %}
+<p>You don't have any collections yet. Go ahead and start one!</p>
+{% endif %}
+<a href="{% url 'new collection' %}" class="btn btn-success">New collection</a>
 {% endblock %}

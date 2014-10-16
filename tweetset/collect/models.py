@@ -7,7 +7,7 @@ from django.conf import settings
 import os
 
 class Collection(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,help_text="Select a label for your collection of tweets.")
     follow = models.TextField(blank=True,null=True,help_text="A comma separated list of user IDs, indicating the users to return statuses for in the stream. More information at https://dev.twitter.com/docs/streaming-apis/parameters#follow")
     track = models.TextField(blank=True,null=True,help_text="A comma separated list of keywords or phrases to track. Phrases of keywords are specified by a comma-separated list. More information at https://dev.twitter.com/docs/streaming-apis/parameters#track")
     locations = models.TextField(blank=True,null=True,help_text="A comma-separated list of longitude,latitude pairs specifying a set of bounding boxes to filter Tweets by. On geolocated Tweets falling within the requested bounding boxes will be included—unlike the Search API, the user\'s location field is not used to filter tweets. Each bounding box should be specified as a pair of longitude and latitude pairs, with the southwest corner of the bounding box coming first. For example: \"-122.75,36.8,-121.75,37.8\" will track all tweets from San Francisco. NOTE: Bounding boxes do not act as filters for other filter parameters. More information at https://dev.twitter.com/docs/streaming-apis/parameters#locations")
@@ -62,6 +62,10 @@ class Collection(models.Model):
                 return False
         else:
             return False
+
+    def delete(self):
+        self.stop()
+        super(Collection, self).delete()
 
     def __unicode__(self):
         return unicode(self.name)

@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from collect.models import Collection
 
 class SignupForm(forms.Form):
     email = forms.EmailField(required=True)
@@ -23,3 +24,8 @@ class SignupForm(forms.Form):
             self._errors["email"] = self.error_class([msg])
             del cleaned_data["email"]
         return cleaned_data
+
+class CollectionForm(forms.ModelForm):
+    class Meta:
+        model = Collection
+        exclude = ['user']

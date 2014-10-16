@@ -12,7 +12,56 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from collect.models import Collection
 from django.db.models import Count
 
-from collect.forms import SignupForm
+from collect.forms import SignupForm, CollectionForm
+
+@login_required
+def edit_collection(request,collection_id):
+    c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    if request.method == 'POST':
+        form = CollectionForm(request.POST,instance=c)
+        if form.is_valid():
+            new_collection = form.save(commit=False)
+            new_collection.save()
+            return redirect('dashboard')
+    else:
+        form = CollectionForm(instance=c)
+    return render(request, 'collect/edit_collection.html', {
+        'collection':c,
+        'form':form,
+    })
+
+@login_required
+def new_collection(request):
+    if request.method == 'POST':
+        form = CollectionForm(request.POST)
+        if form.is_valid():
+            new_collection = form.save(commit=False)
+            new_collection.user = request.user
+            new_collection.save()
+            return redirect('dashboard')
+    else:
+        form = CollectionForm()
+    return render(request, 'collect/new_collection.html', {
+        'form':form,
+        })
+
+@login_required
+def stop_collection(request,collection_id):
+    c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    c.stop()
+    return redirect('dashboard')
+
+@login_required
+def start_collection(request,collection_id):
+    c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    c.start()
+    return redirect('dashboard')
+
+@login_required
+def delete_collection(request,collection_id):
+    c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    c.delete()
+    return redirect('dashboard')
 
 @login_required
 def dashboard(request):
