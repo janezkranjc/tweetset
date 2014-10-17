@@ -12,6 +12,12 @@ $( document ).ready(function() {
     $btn.button('loading');
     });    
 
+    $("input.ts-loading").click(function() {
+    var $btn = $(this);
+    $btn.button('loading');
+    });    
+
+
     $(".tooltip-control").tooltip({'placement':'right'});
 
 });

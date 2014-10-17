@@ -1,0 +1,34 @@
+{% extends 'collect/base.html' %} 
+
+{% block content %}
+<h2>Tweets in collections {{collection.name}}</h2>
+
+{% if collection.tweets.all %}
+<div class="table-responsive">
+  <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Username</th>
+          <th>Tweet</th>
+          <th>Created at</th>
+          <th>Tweet id</th>
+        </tr>
+      </thead>
+      <tbody>
+            {% for tweet in collection.tweets.all %}
+            <tr>
+            <td><img src="{{tweet.data.user.profile_image_url}}" class="img-thumbnail"></td>
+            <td>{{tweet.data.user.screen_name}}</td>
+            <td>{{tweet.data.text}}</td>
+            <td>{{tweet.data.created_at}}</td>
+            <td>{{tweet.twitter_id}}</td>
+            </tr>
+            {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% else %}
+<p>This collection doesn't have any tweets yet. You need to start it.</p>
+{% endif %}
+{% endblock %}

@@ -13,7 +13,6 @@
   {% include "collect/include/form_field.html" with field=form.follow %}
   {% include "collect/include/form_field.html" with field=form.track %}
   {% include "collect/include/form_field.html" with field=form.locations %}
-  {% include "collect/include/form_field.html" with field=form.firehose checkbox="True" %}
 </div>
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 {% csrf_token %}
@@ -26,7 +25,7 @@
 
 <div class="row">
   <div class="col-lg-6">
-    <input type="submit" class="btn btn-success" value="Save collection">
+    <input type="submit" class="btn btn-success ts-loading" data-loading-text="Validating..." value="Save collection">
   </div>
 </div>
 

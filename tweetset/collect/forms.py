@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from collect.models import Collection
+from twython import Twython
 
 class SignupForm(forms.Form):
     email = forms.EmailField(required=True)
@@ -28,4 +29,26 @@ class SignupForm(forms.Form):
 class CollectionForm(forms.ModelForm):
     class Meta:
         model = Collection
-        exclude = ['user']
+        exclude = ['user','firehose']
+
+    def clean(self):
+        cleaned_data = super(CollectionForm, self).clean()
+        consumer_key = cleaned_data.get("consumer_key",None)
+        consumer_secret = cleaned_data.get("consumer_secret",None)
+        access_token = cleaned_data.get("access_token",None)
+        access_token_secret = cleaned_data.get("access_token_secret",None)
+        try:
+            twitter = Twython(consumer_key,consumer_secret,access_token,access_token_secret)
+            twitter.verify_credentials()
+        except:
+            msg = u"Your Twitter credentials did not validate."
+            self._errors["consumer_key"] = self.error_class([msg])
+            self._errors["consumer_secret"] = self.error_class([msg])
+            self._errors["access_token"] = self.error_class([msg])
+            self._errors["access_token_secret"] = self.error_class([msg])
+            del cleaned_data["consumer_key"]
+            del cleaned_data["consumer_secret"]
+            del cleaned_data["access_token"]
+            del cleaned_data["access_token_secret"]
+        return cleaned_data
+

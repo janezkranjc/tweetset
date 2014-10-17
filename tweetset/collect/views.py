@@ -15,6 +15,13 @@ from django.db.models import Count
 from collect.forms import SignupForm, CollectionForm
 
 @login_required
+def tweets(request,collection_id):
+    c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    return render(request, 'collect/tweets.html', {
+        'collection':c,
+        })
+
+@login_required
 def edit_collection(request,collection_id):
     c = get_object_or_404(Collection,pk=collection_id,user=request.user)
     if request.method == 'POST':

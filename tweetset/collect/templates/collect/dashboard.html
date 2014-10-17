@@ -14,7 +14,6 @@
           <th>Follow</th>
           <th>Track</th>
           <th>Locations</th>
-          <th>Firehose</th>
           <th>Active</th>
           <th>Tweets</th>
           <th>Action</th>
@@ -27,9 +26,8 @@
             <td>{{colleciton.follow}}</td>
             <td>{{collection.track}}</td>
             <td>{{collection.locations}}</td>
-            <td>{{collection.firehose}}</td>
             <td>{{collection.is_running}}</td>
-            <td>{{collection.num_tweets}}</td>
+            <td><a href="{% url 'tweets' collection_id=collection.pk %}">{{collection.num_tweets}}</a></td>
             <td>
                 {% if not collection.is_running %}<a href="{% url 'start collection' collection_id=collection.pk %}" class="btn btn-success btn-xs ts-loading" data-loading-text="Starting">Start</a>
                 <a href="{% url 'edit collection' collection_id=collection.pk %}" class="btn btn-info btn-xs">Edit</a> 
