@@ -12,13 +12,21 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from collect.models import Collection
 from django.db.models import Count
 
+from collect.utils import pagination_helper
+
 from collect.forms import SignupForm, CollectionForm
 
 @login_required
 def tweets(request,collection_id):
     c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    page = request.GET.get('page',1)
+    tweets, show_first, show_last, page_numbers = pagination_helper(object_list=c.tweets.all(), page=page, per_page=25, allow_empty_first_page=True)
     return render(request, 'collect/tweets.html', {
         'collection':c,
+        'tweets':tweets,
+        'show_first':show_first,
+        'show_last':show_last,
+        'page_numbers':page_numbers,
         })
 
 @login_required

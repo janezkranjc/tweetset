@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'widget_tweaks',    
     'collect',
+    'debug_toolbar.apps.DebugToolbarConfig',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

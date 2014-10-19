@@ -5,6 +5,8 @@ from jsonfield import JSONField
 import xmlrpclib
 from django.conf import settings
 import os
+from email.utils import parsedate
+from datetime import datetime
 
 class Collection(models.Model):
     name = models.CharField(max_length=100,help_text="Select a label for your collection of tweets.")
@@ -74,6 +76,9 @@ class Tweet(models.Model):
     data = JSONField()
     twitter_id = models.CharField(max_length=100,db_index=True)
     collection = models.ForeignKey(Collection,related_name="tweets")
+
+    def parse_datetime(self):
+        return datetime(*(parsedate(self.data['created_at'])[:6]))        
 
     def __unicode__(self):
         return unicode(self.twitter_id)

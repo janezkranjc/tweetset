@@ -1,9 +1,46 @@
 {% extends 'collect/base.html' %} 
 
 {% block content %}
-<h2>Tweets in collections {{collection.name}}</h2>
+<h2>Tweets in collection {{collection.name}}</h2>
 
 {% if collection.tweets.all %}
+
+     <ul class="pagination pull-right">
+        <li><a href="{% url 'tweets' collection_id=collection.id %}" >&lt;&lt;</a></li>
+       {% if tweets.has_previous %}
+        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.previous_page_number}}" >&lt;</a>
+       {% else %}
+        <li><a href="{% url 'tweets' collection_id=collection.id %}" >&lt;</a>
+       {% endif %}
+
+       {% if show_first %}
+            <li><a href="{% url 'tweets' collection_id=collection.id %}" >1</a></li>
+            <li><a>...</a></li>
+       {% endif %}
+
+            {% for p in page_numbers %}
+                {% if p == tweets.number %}
+            <li class="active"><a>{{ p }}</a></li>
+                {% else %}
+            <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{ p }}">{{ p }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+        {% if show_last %}
+            <li><a>...</a></li>
+            <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.paginator.num_pages}}">{{tweets.paginator.num_pages}}</a></li>
+        {% endif %}
+
+        {% if tweets.has_next %}
+        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.next_page_number}}">&gt;</a></li>
+        {% else %}
+        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.number}}">&gt;</a></li>
+        {% endif %}
+        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.paginator.num_pages}}">&gt;&gt;</a></li>
+    </ul>
+
+
+
 <div class="table-responsive">
   <table class="table table-bordered table-striped">
       <thead>
@@ -16,12 +53,12 @@
         </tr>
       </thead>
       <tbody>
-            {% for tweet in collection.tweets.all %}
+            {% for tweet in tweets %}
             <tr>
             <td><img src="{{tweet.data.user.profile_image_url}}" class="img-thumbnail"></td>
             <td>{{tweet.data.user.screen_name}}</td>
             <td>{{tweet.data.text}}</td>
-            <td>{{tweet.data.created_at}}</td>
+            <td>{{tweet.parse_datetime}}</td>
             <td>{{tweet.twitter_id}}</td>
             </tr>
             {% endfor %}
