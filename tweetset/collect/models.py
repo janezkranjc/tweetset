@@ -34,6 +34,7 @@ class Collection(models.Model):
         if not self.is_running():
             s.supervisor.startProcess('tweetset:collection'+str(self.pk))
             return True
+        return True
 
     def stop(self):
         s = xmlrpclib.ServerProxy(settings.SUPERVISOR_URI)

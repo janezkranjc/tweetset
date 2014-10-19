@@ -69,7 +69,10 @@ def stop_collection(request,collection_id):
 @login_required
 def start_collection(request,collection_id):
     c = get_object_or_404(Collection,pk=collection_id,user=request.user)
-    c.start()
+    if c.start():
+        messages.success(request,"Collection successfully started!")
+    else:
+        messages.error(request,"Collection could not be started.")
     return redirect('dashboard')
 
 @login_required

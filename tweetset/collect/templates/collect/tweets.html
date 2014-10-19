@@ -1,43 +1,42 @@
 {% extends 'collect/base.html' %} 
 
 {% block content %}
-<h2>Tweets in collection {{collection.name}}</h2>
+{% if collection.tweets.count > 0 %}
+<h2 class="pull-left">Tweets in collection {{collection.name}}</h2>
 
-{% if collection.tweets.all %}
+ <ul class="pagination pull-right">
+    <li><a href="{% url 'tweets' collection_id=collection.id %}" >&lt;&lt;</a></li>
+   {% if tweets.has_previous %}
+    <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.previous_page_number}}" >&lt;</a>
+   {% else %}
+    <li><a href="{% url 'tweets' collection_id=collection.id %}" >&lt;</a>
+   {% endif %}
 
-     <ul class="pagination pull-right">
-        <li><a href="{% url 'tweets' collection_id=collection.id %}" >&lt;&lt;</a></li>
-       {% if tweets.has_previous %}
-        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.previous_page_number}}" >&lt;</a>
-       {% else %}
-        <li><a href="{% url 'tweets' collection_id=collection.id %}" >&lt;</a>
-       {% endif %}
+   {% if show_first %}
+        <li><a href="{% url 'tweets' collection_id=collection.id %}" >1</a></li>
+        <li><a>...</a></li>
+   {% endif %}
 
-       {% if show_first %}
-            <li><a href="{% url 'tweets' collection_id=collection.id %}" >1</a></li>
-            <li><a>...</a></li>
-       {% endif %}
+        {% for p in page_numbers %}
+            {% if p == tweets.number %}
+        <li class="active"><a>{{ p }}</a></li>
+            {% else %}
+        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{ p }}">{{ p }}</a></li>
+            {% endif %}
+        {% endfor %}
 
-            {% for p in page_numbers %}
-                {% if p == tweets.number %}
-            <li class="active"><a>{{ p }}</a></li>
-                {% else %}
-            <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{ p }}">{{ p }}</a></li>
-                {% endif %}
-            {% endfor %}
+    {% if show_last %}
+        <li><a>...</a></li>
+        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.paginator.num_pages}}">{{tweets.paginator.num_pages}}</a></li>
+    {% endif %}
 
-        {% if show_last %}
-            <li><a>...</a></li>
-            <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.paginator.num_pages}}">{{tweets.paginator.num_pages}}</a></li>
-        {% endif %}
-
-        {% if tweets.has_next %}
-        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.next_page_number}}">&gt;</a></li>
-        {% else %}
-        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.number}}">&gt;</a></li>
-        {% endif %}
-        <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.paginator.num_pages}}">&gt;&gt;</a></li>
-    </ul>
+    {% if tweets.has_next %}
+    <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.next_page_number}}">&gt;</a></li>
+    {% else %}
+    <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.number}}">&gt;</a></li>
+    {% endif %}
+    <li><a href="{% url 'tweets' collection_id=collection.id %}?page={{tweets.paginator.num_pages}}">&gt;&gt;</a></li>
+</ul>
 
 
 
