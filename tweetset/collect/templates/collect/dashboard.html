@@ -20,8 +20,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
             {% for collection in collections %}
+          <tr>
             <td>{{collection.name}}</td>
             <td>{{colleciton.follow}}</td>
             <td>{{collection.track}}</td>
@@ -36,8 +36,8 @@
                 <a href="{% url 'stop collection' collection_id=collection.pk %}" class="btn btn-warning btn-xs ts-loading" data-loading-text="Stopping">Stop</a> 
                 {% endif %}
             </td>
+          </tr>  
             {% endfor %}
-        </tr>
       </tbody>
     </table>
 </div>

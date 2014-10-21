@@ -28,6 +28,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
     <script src="{{STATIC_URL}}js/script.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
   <body class="padded">
 
@@ -58,12 +59,11 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
  {{user}} <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="{% url 'my account' %}"><span class="glyphicon glyphicon-wrench"></span> My account</a></li>
-            <li><a href="{% url 'logout' %}?next_page={{request.get_full_path}}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
+            <li><a href="{% url 'logout' %}?next_page={% url 'index' %}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
           </ul>
         </li>
         {% else %}
-        <li><a href="{% url 'login' %}">Log in / Sign up</a></li>
+        <li><a href="{% url 'social:begin' backend='twitter' %}"><i class="fa fa-twitter"></i> Log in with Twitter</a></li>
         {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->

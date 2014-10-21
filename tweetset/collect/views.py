@@ -14,7 +14,7 @@ from django.db.models import Count
 
 from collect.utils import pagination_helper
 
-from collect.forms import SignupForm, CollectionForm
+from collect.forms import CollectionForm
 
 @login_required
 def tweets(request,collection_id):
@@ -92,30 +92,5 @@ def dashboard(request):
 def index(request):
     return render(request, 'collect/index.html')
 
-@login_required
-def account(request):
-    return render(request, 'collect/index.html')
-
 def collect_login(request, *args, **kwargs):
-    if request.method == 'POST':
-        if not request.POST.get('remember_me', None):
-            request.session.set_expiry(0)
     return login_view(request, *args, **kwargs)
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            uname = form.data["email"]
-            mail = uname
-            passw = form.data["password"]
-            new_user = User.objects.create_user(uname, mail, passw)
-            user = authenticate(username=uname, password=passw)
-            login(request, user)
-            return redirect('dashboard')
-    else:
-        form = SignupForm()
-
-    return render(request, 'registration/signup.html', {
-        'form':form
-        })

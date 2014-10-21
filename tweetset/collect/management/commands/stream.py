@@ -5,6 +5,7 @@ import logging
 import signal
 from twython import TwythonStreamer
 from collect.models import Collection, Tweet
+from django.conf import settings
 
 class Command(BaseCommand):
     args = 'collection_id'
@@ -43,13 +44,13 @@ class Command(BaseCommand):
             def on_error(self, status_code, data):
                 logger.error("Received error code "+str(status_code)+".")
 
-        stream = TapStreamer(collection.consumer_key, collection.consumer_secret, collection.access_token, collection.access_token_secret)
+        social_auth = collection.user.social_auth.get(provider='twitter')
+
+        stream = TapStreamer(settings.SOCIAL_AUTH_TWITTER_KEY, settings.SOCIAL_AUTH_TWITTER_SECRET, social_auth.tokens['oauth_token'], social_auth.tokens['oauth_token_secret'])
 
         logger.info("Collecting tweets from the streaming API...")
 
         if collection.follow or collection.track or collection.locations:
             stream.statuses.filter(follow=collection.follow,track=collection.track,locations=collection.locations)
-        elif collection.firehose:
-            stream.statuses.firehose()
         else:
             stream.statuses.sample()

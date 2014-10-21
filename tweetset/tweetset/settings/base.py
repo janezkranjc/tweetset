@@ -81,6 +81,11 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -115,6 +120,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'widget_tweaks',    
     'collect',
+    'social.apps.django_app.default',
     'debug_toolbar.apps.DebugToolbarConfig',
 )
 
@@ -126,6 +132,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.core.context_processors.request',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',    
 )
 
 # A sample logging configuration. The only tangible logging
@@ -156,6 +164,11 @@ LOGGING = {
         },
     }
 }
+
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+
+SOCIAL_AUTH_TWITTER_KEY = 'EGmxjE55yVQigPCPWoMqdRsNp'
+SOCIAL_AUTH_TWITTER_SECRET = '9rnyiG5HRHH187hkaaCaSADHNP4tRAD4Ob7SZiCJb9lSbWw3Pg'
 
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {message_constants.DEBUG: 'debug',

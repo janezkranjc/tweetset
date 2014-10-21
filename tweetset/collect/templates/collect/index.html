@@ -7,7 +7,7 @@
     <img src="{{STATIC_URL}}img/tweetset.png" class="img-responsive" alt="TweetSet">
     <h1 class="text-center" style="padding-bottom:10px;">Build your dataset of Tweets!</h1>
     <p class="lead text-center">TweetSet is a web application that was created to simplify collecting Tweets into corpora and datasets. You can collect Tweets based on keywords, user ids, and geographic locations. You can then download your corpora in several different formats that you can use in your research or work.</p>
-    {% if user.is_authenticated %}<a href="{% url 'dashboard' %}" class="btn btn-lg btn-success">Go to dashboard</a>{% else %}<a href="{% url 'login' %}" class="btn btn-lg btn-success">Log in or sign up</a>{% endif %}
+    {% if user.is_authenticated %}<a href="{% url 'dashboard' %}" class="btn btn-lg btn-success">Go to dashboard</a>{% else %}<a href="{% url "social:begin" backend="twitter" %}" class="btn btn-lg btn-success"><i class="fa fa-twitter"></i> Log in with Twitter</a>{% endif %}
     <p style="margin-top:20px;padding-bottom:10px;">TweetSet was made by <a href="http://janez.me">Janez Kranjc</a></p>
     <script data-gratipay-username="janezkranjc"
         src="//grtp.co/v1.js"></script>
