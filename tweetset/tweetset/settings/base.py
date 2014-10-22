@@ -92,6 +92,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'collect.middleware.SocialAuthExceptionMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -166,6 +167,8 @@ LOGGING = {
 }
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 
 SOCIAL_AUTH_TWITTER_KEY = 'EGmxjE55yVQigPCPWoMqdRsNp'
 SOCIAL_AUTH_TWITTER_SECRET = '9rnyiG5HRHH187hkaaCaSADHNP4tRAD4Ob7SZiCJb9lSbWw3Pg'

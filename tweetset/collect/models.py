@@ -27,7 +27,10 @@ class Collection(models.Model):
             except:
                 return False
         if not self.is_running():
-            s.supervisor.startProcess('tweetset:collection'+str(self.pk))
+            try:
+                s.supervisor.startProcess('tweetset:collection'+str(self.pk))
+            except:
+                return False
             return True
         return True
 
