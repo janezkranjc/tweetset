@@ -21,3 +21,4 @@ def pagination_helper(object_list,page,per_page=10,allow_empty_first_page=True):
     show_first = 1 not in page_numbers
     show_last = paginator.num_pages not in page_numbers
     return (appcontacts, show_first, show_last, page_numbers)
+

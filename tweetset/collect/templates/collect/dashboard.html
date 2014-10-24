@@ -35,6 +35,14 @@
                 {% else %}
                 <a href="{% url 'stop collection' collection_id=collection.pk %}" class="btn btn-warning btn-xs ts-loading" data-loading-text="Stopping">Stop</a> 
                 {% endif %}
+                <div class="btn-group">
+                  <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                    Download <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{% url 'download json' collection_id=collection.pk %}">JSON</a></li>
+                  </ul>
+                </div>                
             </td>
           </tr>  
             {% endfor %}

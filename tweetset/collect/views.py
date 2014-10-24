@@ -15,6 +15,21 @@ from django.db.models import Count
 from collect.utils import pagination_helper
 
 from collect.forms import CollectionForm
+from django.utils.text import slugify
+import json
+import gzip
+
+@login_required
+def download_json(request,collection_id):
+    c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    response = HttpResponse(content_type='application/gzip')
+    response['Content-Disposition'] = 'attachment; filename="'+slugify(c.name)+'.json.gz"'
+    list_of_tweets = []
+    for t in c.tweets.all():
+        list_of_tweets.append(t.data)
+    with gzip.GzipFile(fileobj=response, mode="w") as f:
+        f.write(json.dumps(list_of_tweets,indent=4))
+    return response
 
 @login_required
 def tweets(request,collection_id):

@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^dashboard/collection/stop/(?P<collection_id>[0-9]+)/', 'collect.views.stop_collection', name='stop collection'),
     url(r'^dashboard/collection/edit/(?P<collection_id>[0-9]+)/', 'collect.views.edit_collection', name='edit collection'),
     url(r'^dashboard/collection/tweets/(?P<collection_id>[0-9]+)/', 'collect.views.tweets', name='tweets'),
+    url(r'^dashboard/collection/json/(?P<collection_id>[0-9]+)/', 'collect.views.download_json', name='download json'),    
 
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'redirect_field_name':'next_page'}, name='logout'),
     url('^' + settings.LOGIN_URL[1:] + '$', 'collect.views.collect_login', name='login'),
