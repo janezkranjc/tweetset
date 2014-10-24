@@ -41,6 +41,7 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{% url 'download json' collection_id=collection.pk %}">JSON</a></li>
+                    <li><a href="{% url 'download csv' collection_id=collection.pk %}">CSV</a></li>
                   </ul>
                 </div>                
             </td>

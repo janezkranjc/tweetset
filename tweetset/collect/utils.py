@@ -22,3 +22,14 @@ def pagination_helper(object_list,page,per_page=10,allow_empty_first_page=True):
     show_last = paginator.num_pages not in page_numbers
     return (appcontacts, show_first, show_last, page_numbers)
 
+import collections
+
+def flatten(d, parent_key='', sep='_'):
+    items = []
+    for k, v in d.items():
+        new_key = parent_key + sep + k if parent_key else k
+        if isinstance(v, collections.MutableMapping):
+            items.extend(flatten(v, new_key).items())
+        else:
+            items.append((new_key, v))
+    return dict(items)

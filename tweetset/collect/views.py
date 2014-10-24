@@ -18,6 +18,31 @@ from collect.forms import CollectionForm
 from django.utils.text import slugify
 import json
 import gzip
+import csv
+
+from collect.utils import flatten
+
+def encode_if_string(s):
+    try:
+        return s.encode('utf-8')
+    except:
+        return s
+
+@login_required
+def download_csv(request,collection_id):
+    c = get_object_or_404(Collection,pk=collection_id,user=request.user)
+    response = HttpResponse(content_type='application/gzip')
+    response['Content-Disposition'] = 'attachment; filename="'+slugify(c.name)+'.csv.gz"'
+    with gzip.GzipFile(fileobj=response, mode="w") as f:
+        list_of_tweets = []
+        for t in c.tweets.all():
+            list_of_tweets.append(flatten(t.data))
+        if len(list_of_tweets)>0:
+            writer = csv.DictWriter(f,['id','text','retweeted','created_at','user_id','user_screen_name'],extrasaction='ignore',dialect='excel')
+            writer.writeheader()
+            for t in list_of_tweets:
+                writer.writerow({k:encode_if_string(v) for k,v in t.items()})
+    return response
 
 @login_required
 def download_json(request,collection_id):
