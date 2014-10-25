@@ -16,3 +16,5 @@ DATABASES = {
 }
 
 STATIC_URL = 'http://static.tweetset.com/'
+
+PYTHON_EXECUTABLE = '/srv/django-envs/tweetset/bin/python'
