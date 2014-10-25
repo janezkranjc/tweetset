@@ -14,3 +14,5 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+STATIC_URL = 'http://static.tweetset.com/'
