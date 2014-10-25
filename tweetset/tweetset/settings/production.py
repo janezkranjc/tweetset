@@ -10,7 +10,7 @@ DATABASES = {
         'NAME': 'tweetset',
         'USER': 'tweetset',
         'PASSWORD': 'kuracpalac',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
