@@ -6,7 +6,7 @@ ALLOWED_HOSTS = ['tweetset.com','www.tweetset.com']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tweetset',
         'USER': 'tweetset',
         'PASSWORD': 'kuracpalac',
