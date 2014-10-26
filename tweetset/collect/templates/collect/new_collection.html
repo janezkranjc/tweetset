@@ -10,8 +10,8 @@
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
   {% csrf_token %}
     {% include "collect/include/form_field.html" with field=form.name %}
+    {% include "collect/include/form_field.html" with field=form.track %}    
     {% include "collect/include/form_field.html" with field=form.follow %}
-    {% include "collect/include/form_field.html" with field=form.track %}
     {% include "collect/include/form_field.html" with field=form.locations %}
   </div>
 </div>
