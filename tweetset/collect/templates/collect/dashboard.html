@@ -11,8 +11,8 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Follow</th>
-          <th>Track</th>
+          <th>Keywords</th>
+          <th>User IDs</th>          
           <th>Locations</th>
           <th>Active</th>
           <th>Tweets</th>
@@ -23,8 +23,8 @@
             {% for collection in collections %}
           <tr>
             <td>{{collection.name}}</td>
+            <td>{{collection.track}}</td>            
             <td>{{colleciton.follow}}</td>
-            <td>{{collection.track}}</td>
             <td>{{collection.locations}}</td>
             <td>{{collection.is_running}}</td>
             <td><a href="{% url 'tweets' collection_id=collection.pk %}">{{collection.num_tweets}}</a></td>
