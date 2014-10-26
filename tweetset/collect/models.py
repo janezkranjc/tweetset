@@ -8,9 +8,20 @@ import os
 from email.utils import parsedate
 from datetime import datetime
 
+from django.core.exceptions import ValidationError
+
+def list_of_ids(value):
+    ids = value.split(',')
+    try:
+        for i in ids:
+            int(i.strip())
+    except:
+        raise ValidationError("Please enter a list of numerical IDs")
+
+
 class Collection(models.Model):
     name = models.CharField(max_length=100,help_text="Select a label for your collection of tweets.")
-    follow = models.TextField(blank=True,null=True,help_text="A comma separated list of user IDs, indicating the users to return statuses for in the stream. More information at https://dev.twitter.com/docs/streaming-apis/parameters#follow",verbose_name="List of User IDs to follow (separated with commas)")
+    follow = models.TextField(blank=True,null=True,help_text="A comma separated list of user IDs, indicating the users to return statuses for in the stream. More information at https://dev.twitter.com/docs/streaming-apis/parameters#follow",verbose_name="List of User IDs to follow (separated with commas)",validators=[list_of_ids])
     track = models.TextField(blank=True,null=True,help_text="A comma separated list of keywords or phrases to track. Phrases of keywords are specified by a comma-separated list. More information at https://dev.twitter.com/docs/streaming-apis/parameters#track",verbose_name="List of keywords to track (separated with commas)")
     locations = models.TextField(blank=True,null=True,help_text="A comma-separated list of longitude,latitude pairs specifying a set of bounding boxes to filter Tweets by. On geolocated Tweets falling within the requested bounding boxes will be included—unlike the Search API, the user\'s location field is not used to filter tweets. Each bounding box should be specified as a pair of longitude and latitude pairs, with the southwest corner of the bounding box coming first. For example: \"-122.75,36.8,-121.75,37.8\" will track all tweets from San Francisco. NOTE: Bounding boxes do not act as filters for other filter parameters. More information at https://dev.twitter.com/docs/streaming-apis/parameters#locations",verbose_name="List of coordinates")
     user = models.ForeignKey(User,related_name="collections")
