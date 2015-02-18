@@ -45,6 +45,13 @@ cd tweetset
 pip install -r requirements.txt
 ```
 
+### Copy and edit passwords file ###
+```bash
+cp tweetset/tweetset/tweetset/settings/__passwords.py tweetset/tweetset/tweetset/settings/passwords.py
+vi tweetset/tweetset/tweetset/settings/passwords.py
+```
+
+
 ### Sync database ###
 ```bash
 cd tweetset
