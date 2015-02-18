@@ -43,3 +43,5 @@ celerybeat-schedule
 
 node_modules
 bower_components
+
+tweetset/tweetset/settings/passwords.py

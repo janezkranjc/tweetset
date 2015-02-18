@@ -1,4 +1,5 @@
 from .base import *
+from .passwords import *
 import os
 
 DEBUG = True
